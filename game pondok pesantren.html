@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cerita pondok pesantren</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        .title {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .input-container, .choices, .result {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .input-container input {
+            padding: 10px;
+            width: calc(100% - 20px);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .input-container button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .input-container button:hover {
+            background-color: #0056b3;
+        }
+        .choice {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #e3e3e3;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .choice:hover {
+            background-color: #d4d4d4;
+        }
+        .restart {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .restart:hover {
+            background-color: #0056b3;
+        }
+    </style>
+<style type="text/css" id="dcoder_stylesheet">/* Gaya Global */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Kontainer Utama */
+.container {
+    max-width: 600px;
+    width: 100%;
+    margin: 40px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #f8f8f8, #ffffff);
+    border-radius: 15px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.container:hover {
+    transform: scale(1.02);
+}
+
+/* Judul */
+.title {
+    font-size: 2.2em;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Input Nama & Tombol Mulai */
+.input-container input {
+    padding: 14px 22px;
+    width: calc(100% - 44px);
+    font-size: 1.2em;
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    margin: 12px 0;
+    transition: border-color 0.3s ease;
+    outline: none;
+}
+
+.input-container input:focus {
+    border-color: #0056b3;
+}
+
+.input-container button {
+    padding: 14px 35px;
+    background-color: #007bff;
+    color: white;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.input-container button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Teks Cerita */
+#story {
+    font-size: 1.4em;
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.7;
+    text-align: left;
+    padding: 15px;
+    background-color: #eef2f7;
+    border-radius: 10px;
+}
+
+/* Pilihan */
+.choices {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 20px 0;
+}
+
+.choice {
+    background-color: #eef2f7;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 1.1em;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.choice:hover {
+    background-color: #d4e0f0;
+    transform: scale(1.05);
+}
+
+.choice:active {
+    background-color: #c0d1e7;
+}
+
+/* Teks Hasil */
+.result {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #333;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f0f8ff;
+    border-radius: 10px;
+}
+
+/* Tombol Mulai Lagi */
+.restart {
+    padding: 14px 35px;
+    background-color: #28a745;
+    color: white;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: none;
+}
+
+.restart:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+/* Efek Animasi untuk Judul dan Pilihan */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.title, .choice {
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Efek Ketika Pilihan Dipilih */
+.choice:active {
+    background-color: #c0d1e7;
+}
+
+/* Efek Hover pada Pilihan */
+.choice:hover {
+    background-color: #d9e4f1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Transisi Halus pada Kontainer */
+.container {
+    transition: transform 0.3s ease-in-out;
+}
+
+.container:hover {
+    transform: scale(1.02);
+}
+
+/* Animasi Tombol Mulai Lagi */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.restart {
+    animation: pulse 1.2s infinite;
+}
+
+/* Efek Teks yang Menarik */
+.title, #story {
+    letter-spacing: 0.5px;
+}
+
+/* Pilihan yang Aktif */
+.choice:active {
+    transform: scale(0.98);
+    background-color: #b1c8de;
+}
+
+/* Detil Latar Belakang */
+body {
+    background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(230, 240, 255, 1) 100%);
+}</style></head>
+<body>
+    <div class="container">
+        <div class="title">Cerita kalian</div>
+        <div id="name-input" class="input-container">
+            <input type="text" id="player-name" placeholder="Masukkan Nama Anda">
+            <button onclick="startGame()">Mulai</button>
+        </div>
+        <div id="story" style="display: none;"></div>
+        <div class="choices" id="choices"></div>
+        <div class="result" id="result"></div>
+        <button id="restart" class="restart" style="display:none;" onclick="restartGame()">Mulai Lagi</button>
+    </div>
+    <script>
+        const storySteps = [
+            {
+                text: "Hari pertama di pondok pesantren, apa yang ingin kamu lakukan?",
+                choices: [
+                    { text: "Ngaji Al-Qur'an", next: 1 },
+                    { text: "Ke warung", next: 2 },
+                    { text: "Tidur", next: 3 },
+                ],
+            },
+            {
+                text: "Kamu memilih ngaji Al-Qur'an dan mulai dekat dengan ustaz. Apa langkah berikutnya?",
+                choices: [
+                    { text: "Menghafal Al-Qur'an", next: 4 },
+                    { text: "Ikut lomba ceramah", next: 5 },
+                    { text: "Meninggalkan kegiatan ngaji", next: 6 },
+                ],
+            },
+            {
+                text: "Kamu memilih ke warung untuk bersantai. Apa yang kamu lakukan selanjutnya?",
+                choices: [
+                    { text: "Belajar sambil mengobrol", next: 4 },
+                    { text: "Bergosip dengan teman", next: 6 },
+                    { text: "Makan dan kembali ke asrama", next: 5 },
+                ],
+            },
+            {
+                text: "Kamu memilih tidur. Ustaz menegurmu karena tidak aktif. Apa langkahmu selanjutnya?",
+                choices: [
+                    { text: "Meminta maaf dan ikut ngaji", next: 4 },
+                    { text: "Mengabaikan teguran", next: 6 },
+                    { text: "Bersumpah untuk lebih disiplin", next: 5 },
+                ],
+            },
+            {
+                text: "Kamu terus berusaha dan akhirnya berhasil! Apa akhir ceritamu?",
+                choices: [
+                    { text: "Menikah dengan anak Pak Kyai", ending: "Bahagia: Kamu menikah dengan anak Pak Kyai dan menjadi keluarga besar pesantren." },
+                    { text: "Menghafal Al-Qur'an", ending: "Inspiratif: Kamu menjadi hafiz dan mendirikan pesantren sendiri." },
+                    { text: "Terus mondok sampai tua", ending: "Damai: Kamu hidup sederhana di pesantren sampai akhir hayat." },
+                ],
+            },
+            {
+                text: "Kamu aktif di kegiatan pesantren, tetapi kurang fokus dalam ibadah. Bagaimana akhirnya?",
+                choices: [
+                    { text: "Masa depan suram", ending: "Suram: Kamu gagal membangun masa depan karena kurang disiplin." },
+                    { text: "Berhenti di tengah jalan", ending: "Sedih: Kamu keluar dari pesantren tanpa membawa perubahan." },
+                    { text: "Belajar kembali", next: 4 },
+                ],
+            },
+            {
+                text: "Kamu terlalu sering mengabaikan tanggung jawab. Ustaz kehilangan kepercayaan padamu.",
+                choices: [
+                    { text: "Keluar dari pesantren", ending: "Sedih: Kamu meninggalkan pesantren dan merasa menyesal." },
+                    { text: "Berjanji untuk berubah", next: 5 },
+                    { text: "Mengabaikan teguran", ending: "Suram: Hidupmu tidak terarah setelah keluar dari pesantren." },
+                ],
+            },
+        ];
+
+        let currentStep = 0;
+        let playerName = "";
+
+        function startGame() {
+            playerName = document.getElementById("player-name").value.trim();
+            if (playerName === "") {
+                alert("Masukkan nama Anda terlebih dahulu!");
+                return;
+            }
+            document.getElementById("name-input").style.display = "none";
+            document.getElementById("story").style.display = "block";
+            renderStep();
+        }
+
+        function renderStep() {
+            const step = storySteps[currentStep];
+            document.getElementById("story").innerText = `${playerName}, ${step.text}`;
+            const choicesContainer = document.getElementById("choices");
+            choicesContainer.innerHTML = "";
+            step.choices.forEach((choice, index) => {
+                const button = document.createElement("div");
+                button.className = "choice";
+                button.innerText = choice.text;
+                button.onclick = () => {
+                    if (choice.next !== undefined) {
+                        currentStep = choice.next;
+                        renderStep();
+                    } else {
+                        document.getElementById("story").innerText = `${playerName}, ${choice.ending}`;
+                        choicesContainer.innerHTML = "";
+                        document.getElementById("restart").style.display = "block";
+                    }
+                };
+                choicesContainer.appendChild(button);
+            });
+        }
+
+        function restartGame() {
+            currentStep = 0;
+            document.getElementById("restart").style.display = "none";
+            document.getElementById("name-input").style.display = "block";
+            document.getElementById("story").style.display = "none";
+        }
+    </script>
+
+<script type="text/javascript" id="dcoder_script">playerName = document.getElementById("player-name").value.trim();
+if (playerName === "") {
+    alert("Masukkan nama Anda terlebih dahulu!");
+    return;
+}
+document.addEventListener("DOMContentLoaded", function () {
+    const storySteps = [
+        {
+            text: "Hari pertama di pondok pesantren, apa yang ingin kamu lakukan?",
+            choices: [
+                { text: "Ngaji Al-Qur'an", next: 1 },
+                { text: "Ke warung", next: 2 },
+                { text: "Tidur", next: 3 },
+            ],
+        },
+        {
+            text: "Kamu memilih ngaji Al-Qur'an dan mulai dekat dengan ustaz. Apa langkah berikutnya?",
+            choices: [
+                { text: "Menghafal Al-Qur'an", next: 4 },
+                { text: "Ikut lomba ceramah", next: 5 },
+                { text: "Meninggalkan kegiatan ngaji", next: 6 },
+            ],
+        },
+        {
+            text: "Kamu memilih ke warung untuk bersantai. Apa yang kamu lakukan selanjutnya?",
+            choices: [
+                { text: "Belajar sambil mengobrol", next: 4 },
+                { text: "Bergosip dengan teman", next: 6 },
+                { text: "Makan dan kembali ke asrama", next: 5 },
+            ],
+        },
+        {
+            text: "Kamu memilih tidur. Ustaz menegurmu karena tidak aktif. Apa langkahmu selanjutnya?",
+            choices: [
+                { text: "Meminta maaf dan ikut ngaji", next: 4 },
+                { text: "Mengabaikan teguran", next: 6 },
+                { text: "Bersumpah untuk lebih disiplin", next: 5 },
+            ],
+        },
+        {
+            text: "Kamu terus berusaha dan akhirnya berhasil! Apa akhir ceritamu?",
+            choices: [
+                { text: "Menikah dengan anak Pak Kyai", ending: "Bahagia: Kamu menikah dengan anak Pak Kyai dan menjadi keluarga besar pesantren." },
+                { text: "Menghafal Al-Qur'an", ending: "Inspiratif: Kamu menjadi hafiz dan mendirikan pesantren sendiri." },
+                { text: "Terus mondok sampai tua", ending: "Damai: Kamu hidup sederhana di pesantren sampai akhir hayat." },
+            ],
+        },
+        {
+            text: "Kamu aktif di kegiatan pesantren, tetapi kurang fokus dalam ibadah. Bagaimana akhirnya?",
+            choices: [
+                { text: "Masa depan suram", ending: "Suram: Kamu gagal membangun masa depan karena kurang disiplin." },
+                { text: "Berhenti di tengah jalan", ending: "Sedih: Kamu keluar dari pesantren tanpa membawa perubahan." },
+                { text: "Belajar kembali", next: 4 },
+            ],
+        },
+        {
+            text: "Kamu terlalu sering mengabaikan tanggung jawab. Ustaz kehilangan kepercayaan padamu.",
+            choices: [
+                { text: "Keluar dari pesantren", ending: "Sedih: Kamu meninggalkan pesantren dan merasa menyesal." },
+                { text: "Berjanji untuk berubah", next: 5 },
+                { text: "Mengabaikan teguran", ending: "Suram: Hidupmu tidak terarah setelah keluar dari pesantren." },
+            ],
+        },
+    ];
+
+    let currentStep = 0;
+
+    function renderStep() {
+        const step = storySteps[currentStep];
+        document.getElementById("story").innerText = step.text;
+        const choicesContainer = document.getElementById("choices");
+        choicesContainer.innerHTML = "";
+
+        step.choices.forEach((choice) => {
+            const button = document.createElement("div");
+            button.className = "choice";
+            button.innerText = choice.text;
+            button.onclick = () => {
+                if (choice.next !== undefined) {
+                    currentStep = choice.next;
+                    renderStep();
+                } else {
+                    document.getElementById("story").innerText = choice.ending;
+                    choicesContainer.innerHTML = "";
+                    document.getElementById("restart").style.display = "block";
+                }
+            };
+            choicesContainer.appendChild(button);
+        });
+    }
+
+    document.getElementById("restart").onclick = () => {
+        currentStep = 0;
+        document.getElementById("restart").style.display = "none";
+        renderStep();
+    };
+
+    renderStep();
+});</script></body></html>
